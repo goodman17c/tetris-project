@@ -6,6 +6,7 @@ function init() {
         display[i] = "          ";    //10 spaces to create empty rows
     }
     newblock(Math.floor(Math.random()*7));
+    Update();
     writeScreen();
 }
 
@@ -40,24 +41,35 @@ function newblock(type) {
     }
 }
 
+function setCharAt(str,index,chr) {
+    if(index > str.length-1) return str;
+    return str.substr(0,index) + chr + str.substr(index+1);
+}
+
 function Update() {
-    if (display[21].contains("X")) {
-        freeze;
+    if (display[21].includes("X")) {
+        freeze();
     }
     for (i = 0; i < display.length-1; i++) {
         for (j=0; j<10; j++) {
-            if (display[i].charAt(j) == X && display[i+1].charAt(j) == D) {
+            if (display[i].charAt(j) == "X" && display[i+1].charAt(j) == "D") {
                 freeze();
             }
         }
 
     }
-    
+    for (i=display.length-1; i>=0; i++) {
+        for (j=0; j<10; j++) {
+            if (display[i].charAt(j) == "X")
+                setCharAt(display[i+1], j, "X");
+        }
+    }
     
     
     if (display[1] != "          ") {
         gameOver();
     }
+    setTimeout(Update(), 500);
 }
 
 function freeze() {
