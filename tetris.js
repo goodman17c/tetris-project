@@ -1,11 +1,16 @@
+var display;
+
 function init() {
-    var display = new Array(22);    //20 rows of playing area, top 2 rows are invisible. The rows are labeled from top to bottom
+    display = new Array(22);    //20 rows of playing area, top 2 rows are invisible. The rows are labeled from top to bottom
     for (var i = 0; i < 22; i++) {
         display[i] = "          ";    //10 spaces to create empty rows
     }
+    newblock(Math.floor(Math.random()*7));
+    writeScreen();
 }
 
 function newblock(type) {
+    this.shape = new Array();
     if (type%7 == 0) {
         this.shape[0]="XXXX";
     } else if (type%7 == 1) {
@@ -31,12 +36,12 @@ function newblock(type) {
     }
 
     for (i = 0; i < this.shape.length; i++) {
-        display[i]="    " + this.shape[i] + (" " * 6-this.shape[i].length);
+        display[i]="    " + this.shape[i] + " ".repeat(6-this.shape[i].length);
     }
 }
 
 function Update() {
-    if display[21].contains("X") {
+    if (display[21].contains("X")) {
         freeze;
     }
     for (i = 0; i < display.length-1; i++) {
@@ -62,9 +67,12 @@ function freeze() {
     newblock(Math.floor(Math.random()*7));
 }
 
-function newObject() {
-    
-    
+function writeScreen() {
+    text = document.getElementById("game");
+    text.innerHTML = "";
+    for (i = 2; i < display.length; i++) {
+        text.innerHTML += display[i] + "\n";
+    }
 }
 
 function gameOver() {
