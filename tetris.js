@@ -44,12 +44,11 @@ function newblock(type) {
 }
 
 function setCharAt(str,index,chr) {
-    if(index > str.length-1) return str;
     return str.substr(0,index) + chr + str.substr(index+1);
 }
 
 function Update() {
-    if (display[21].includes("X")) {
+    if (display[21].contains("X")) {
         freeze();
     }
     for (i = 0; i < display.length-1; i++) {
@@ -63,14 +62,15 @@ function Update() {
     }
     for (i=display.length-1; i>=0; i++) {
         for (j=0; j<10; j++) {
-            if (display[i].charAt(j) == "X")
+            if (display[i].charAt(j) == "X") {
                 display[i] = setCharAt(display[i], j, " ");
-		display[i+1] = setCharAt(display[i+1], j, "X");
-        }
+	        display[i+1] = setCharAt(display[i+1], j, "X");
+            }
+	}
     }
     
     
-    if (display[1].includes("D")) {
+    if (display[1].contains("D")) {
         gameOver();
     }
 
