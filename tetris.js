@@ -1,6 +1,8 @@
 var display;
+var running;
 
 function init() {
+    running = true;
     display = new Array(22);    //20 rows of playing area, top 2 rows are invisible. The rows are labeled from top to bottom
     for (var i = 0; i < 22; i++) {
         display[i] = "          ";    //10 spaces to create empty rows
@@ -54,6 +56,7 @@ function Update() {
         for (j=0; j<10; j++) {
             if (display[i].charAt(j) == "X" && display[i+1].charAt(j) == "D") {
                 freeze();
+		break;
             }
         }
 
@@ -61,20 +64,24 @@ function Update() {
     for (i=display.length-1; i>=0; i++) {
         for (j=0; j<10; j++) {
             if (display[i].charAt(j) == "X")
-                setCharAt(display[i+1], j, "X");
+                display[i] = setCharAt(display[i], j, " ");
+		display[i+1] = setCharAt(display[i+1], j, "X");
         }
     }
     
     
-    if (display[1] != "          ") {
+    if (display[1].includes("D")) {
         gameOver();
     }
-    setTimeout(Update(), 500);
+
+    if (running) {
+	setTimeout(Update, 500);
+    }
 }
 
 function freeze() {
     for (i =0; i< display.length; i++) {
-        display[i].replace("X", "D");
+        display[i] = display[i].replace("X", "D");
     }
     newblock(Math.floor(Math.random()*7));
 }
@@ -88,6 +95,6 @@ function writeScreen() {
 }
 
 function gameOver() {
-    
+    running = false;
     
 }
